@@ -7,9 +7,9 @@ export default function Home() {
       <div className="space-y-6 text-center">
         <h1 className="text-6xl font-semibold text-white drop-shadow-md ">
           {" "}
-          🔐 Auth{" "}
+          User Management System{" "}
         </h1>
-        <p className="text-white text-lg">Simple Authentication Service</p>
+        <p className="text-white text-lg">Simple Service to manage Users</p>
       </div>
       <LoginButton mode="modal" asChild>
         <Button variant="secondary" className=" mt-3" size="lg">
