@@ -177,6 +177,7 @@ const SettingsPage = () => {
                       <SelectContent>
                         <SelectItem value={Role.ADMIN}>Admin</SelectItem>
                         <SelectItem value={Role.USER}>User</SelectItem>
+                        <SelectItem value={Role.MANAGER}>Manager</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
