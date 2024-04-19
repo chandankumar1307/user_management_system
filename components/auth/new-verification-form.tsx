@@ -28,6 +28,8 @@ export const NewVerificationForm = () => {
    * sets the success and error states based on the response, and handles any errors.
    */
   const onSubmit = useCallback(() => {
+    console.log("Inside onSubmit");
+
     if (success || error) return;
 
     if (!token) {
@@ -44,13 +46,13 @@ export const NewVerificationForm = () => {
       });
   }, [token, success, error]);
 
-  const isFirstRender = useRef(true);
+  // const isFirstRender = useRef(true);
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    // if (isFirstRender.current) {
+    //   isFirstRender.current = false;
+    //   return;
+    // }
     onSubmit();
   }, [onSubmit]);
 
