@@ -17,7 +17,7 @@ const ServerPage = () => {
   const [organizations, setOrganizations] = useState<OrganizationUsers[]>([]);
   const [selectedOrganization, setSelectedOrganization] =
     useState<OrganizationUsers>();
-  const [isSelectedOrganization, setIsSelectedOrganization] = useState(true);
+  const [isSelectedOrganization, setIsSelectedOrganization] = useState(false);
   const check = "hello";
   useEffect(() => {
     setLoading(true);
@@ -33,6 +33,11 @@ const ServerPage = () => {
         setLoading(false);
       });
   }, []);
+
+  const handleView = (organization: OrganizationUsers) => {
+    setSelectedOrganization(organization);
+    setIsSelectedOrganization(true);
+  };
 
   return (
     <div className=" flex flex-row gap-4 w-[90%]">
@@ -72,7 +77,11 @@ const ServerPage = () => {
                     >
                       Total Users :{organization.users?.length}{" "}
                     </p>
-                    <Button className="w-full" variant="default">
+                    <Button
+                      onClick={() => handleView(organization)}
+                      className="w-full"
+                      variant="default"
+                    >
                       View
                     </Button>
                   </CardContent>
@@ -82,7 +91,7 @@ const ServerPage = () => {
           )}
         </CardContent>
       </Card>
-      <Card className=" w-[40%] h-[80vh]">
+      <Card className=" w-[40%] h-[40vh]">
         {loading && (
           <div className=" w-full flex justify-center  align-middle">
             <BeatLoader />
@@ -91,14 +100,23 @@ const ServerPage = () => {
         {!loading && (
           <>
             <CardHeader>
-              {isSelectedOrganization
-                ? `Users in ${check}`
-                : "No Organization Selected"}
+              <p className="text-2xl font-semibold text-center">
+                {" "}
+                {isSelectedOrganization
+                  ? `Users in ${selectedOrganization?.name}`
+                  : "No Organization Selected"}
+              </p>
             </CardHeader>
             <CardContent className=" mt-8 space-y-6">
-              <div className=" flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+              <div className=" flex flex-col items-start gap-4 justify-between rounded-lg border p-3 shadow-sm">
                 {/*  */}
-                <p className=" w-[80px] text-sm  font-medium">Name</p>
+                <p className=" w-[80px] text-sm  font-medium">Names :-</p>
+                {isSelectedOrganization &&
+                  selectedOrganization?.users?.map((user, index) => (
+                    <p key={index} className=" w-[80px] text-sm  font-medium">
+                      {user.name}
+                    </p>
+                  ))}
               </div>
             </CardContent>
           </>

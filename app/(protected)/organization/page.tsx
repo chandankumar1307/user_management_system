@@ -79,12 +79,11 @@ const OrganizationPage = () => {
     }
 
     setIsEdit(true);
-    console.log(isEdit);
+
     const organizationToEdit = organizations.find((org) => org.id === id);
     if (organizationToEdit) {
-      console.log(organizationToEdit);
       setOrgId(organizationToEdit.id);
-      console.log(isEdit);
+
       if (!loading) {
         form.reset({
           name: organizationToEdit.name,
@@ -127,13 +126,10 @@ const OrganizationPage = () => {
         updateOrganization(orgId, data, user?.role)
           .then((data) => {
             if (data?.error) {
-              console.log(data?.error);
-
               setError(data?.error);
             }
             if (data?.success) {
               setIsEdit(false);
-              console.log("Checked");
 
               form.reset();
               setSuccess(data?.success);

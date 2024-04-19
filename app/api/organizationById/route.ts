@@ -21,17 +21,18 @@ export async function GET() {
     //Now fetch all the users of the organization of all the organizations
     for (let organization of organizations) {
       const users = await getUsersByOrganizationId(organization.id);
+
       if (!users) return new NextResponse("No users found", { status: 200 });
       for (let user of users) {
         const currentUser = await getUserById(user.userId);
         if (currentUser && currentUser.name) allUsers.push(currentUser);
       }
       organization.users = allUsers;
+      allUsers = [];
     }
 
     return new NextResponse(JSON.stringify({ organizations }), { status: 200 });
   } catch (error) {
-    console.log(error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

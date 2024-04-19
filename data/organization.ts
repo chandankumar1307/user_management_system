@@ -5,8 +5,6 @@ export const getAllOrganizations = async () => {
     const organizations = await db.organization.findMany();
     return organizations;
   } catch (error) {
-    console.log(error);
-
     return null;
   }
 };
@@ -20,8 +18,6 @@ export const getOrganizationById = async (id: string) => {
     });
     return organization;
   } catch (error) {
-    console.log(error);
-
     return null;
   }
 };
@@ -35,8 +31,6 @@ export const getOrganizationByManagerId = async (managerId: string) => {
     });
     return organization;
   } catch (error) {
-    console.log(error);
-
     return null;
   }
 };

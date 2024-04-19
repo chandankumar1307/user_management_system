@@ -34,9 +34,7 @@ export const organization = async (
     },
   });
   const orgs = await getAllOrganizations();
-  console.log(orgs);
 
-  console.log(values);
   return { success: "Organization created" };
 };
 
