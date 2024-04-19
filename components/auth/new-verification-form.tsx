@@ -19,6 +19,7 @@ export const NewVerificationForm = () => {
 
   const searchParams = useSearchParams();
   const token = searchParams?.get("token");
+  console.log(token);
 
   /**
    * Handles the form submission for the new verification form.
