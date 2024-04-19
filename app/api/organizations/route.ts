@@ -1,6 +1,5 @@
 import { getAllOrganizations } from "@/data/organization";
 import { getUserById } from "@/data/user";
-import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 
 export async function GET() {

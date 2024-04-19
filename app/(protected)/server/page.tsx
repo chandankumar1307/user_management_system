@@ -6,24 +6,26 @@ import { UserInfo } from "@/components/user-info";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 import { currentUser } from "@/lib/auth";
-import { OrganizationResponse } from "@/models/User";
+import { OrganizationResponse, OrganizationUsers } from "@/models/User";
 import { CrossCircledIcon, GearIcon } from "@radix-ui/react-icons";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { BeatLoader } from "react-spinners";
 
 const ServerPage = () => {
   const user = useCurrentUser();
   const [loading, setLoading] = useState(true);
-  const [organizations, setOrganizations] = useState<OrganizationResponse[]>(
-    []
-  );
-
+  const [organizations, setOrganizations] = useState<OrganizationUsers[]>([]);
+  const [selectedOrganization, setSelectedOrganization] =
+    useState<OrganizationUsers>();
+  const [isSelectedOrganization, setIsSelectedOrganization] = useState(true);
+  const check = "hello";
   useEffect(() => {
     setLoading(true);
-    fetch("/api/organizations")
+    fetch("/api/organizationById")
       .then((response) => response.json())
       .then((data) => {
-        setOrganizations(data);
+        setOrganizations(data.organizations);
+
         setLoading(false);
       })
       .catch((error) => {
@@ -42,101 +44,65 @@ const ServerPage = () => {
           </p>
         </CardHeader>
         <CardContent className=" mt-8  flex flex-wrap gap-5  justify-around ">
-          {/* <Card className="w-[32%] h-[145px] ">
-            <CardHeader className="">
-              <p className=" text-[22px] text-center font-semibold">ZopSmart</p>
-            </CardHeader>
-            <CardContent className="">
-              <Button className="w-full" variant="default">
-                View
-              </Button>
-            </CardContent>
-          </Card> */}
-          <Card className="w-[40%] h-[145px] mb-6 ">
-            <CardHeader className="">
-              <p className=" text-[22px] text-center font-semibold">ZopSmart</p>
-            </CardHeader>
-            <CardContent className="">
-              <Button className="w-full" variant="default">
-                View
-              </Button>
-            </CardContent>
-          </Card>
-          {/* <Card className="w-[40%] h-[145px] ">
-            <CardHeader className="">
-              <p className=" text-[22px] text-center font-semibold">ZopSmart</p>
-            </CardHeader>
-            <CardContent className="">
-              <Button className="w-full" variant="default">
-                View
-              </Button>
-            </CardContent>
-          </Card>
-          <Card className="w-[40%] h-[145px] ">
-            <CardHeader className="">
-              <p className=" text-[22px] text-center font-semibold">ZopSmart</p>
-            </CardHeader>
-            <CardContent className="">
-              <Button className="w-full" variant="default">
-                View
-              </Button>
-            </CardContent>
-          </Card>
-          <Card className="w-[40%] h-[145px] ">
-            <CardHeader className="">
-              <p className=" text-[22px] text-center font-semibold">ZopSmart</p>
-            </CardHeader>
-            <CardContent className="">
-              <Button className="w-full" variant="default">
-                View
-              </Button>
-            </CardContent>
-          </Card> */}
-
           {loading && (
             <div className=" w-full flex justify-center  align-middle">
               <BeatLoader />
             </div>
           )}
+
           {!loading && organizations.length === 0 && (
             <p className=" text-center text-sm font-medium">
-              No organizations found
+              No organizations found under you
             </p>
           )}
-          {/* {!loading && (
+          {!loading && organizations.length > 0 && (
             <>
-              <div className=" flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                <p className=" w-[80px] text-sm  font-medium">Name</p>
-                <p className="  w-[120px]  text-sm  font-medium ">Manager</p>
-                <p className=" w-[90px] text-sm font-medium">Members</p>
-              </div>
-              <div className=" flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                <div className="w-full">
-                  {organizations.map((organization) => (
-                    <div
-                      key={organization.id}
-                      className=" flex w-full flex-row items-center justify-between  p-3"
+              {organizations.map((organization) => (
+                <Card key={organization.id} className="w-[40%] h-[180px] mb-6 ">
+                  <CardHeader className="">
+                    <p className=" text-[22px] text-center font-semibold">
+                      {organization.name}
+                    </p>
+                  </CardHeader>
+                  <CardContent className="">
+                    <p
+                      className="
+                    text-[14px] text-center font-medium mb-4
+                    "
                     >
-                      <p className=" w-[80px] text-sm  font-medium">
-                        {organization.name}
-                      </p>
-                      <p className=" w-[120px] text-sm  font-medium ">
-                        {organization.manager.name}
-                      </p>
-                      <p className=" w-[80px] text-sm font-medium ">
-                        <Button variant="link">View</Button>
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+                      Total Users :{organization.users?.length}{" "}
+                    </p>
+                    <Button className="w-full" variant="default">
+                      View
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
             </>
-          )} */}
+          )}
         </CardContent>
       </Card>
       <Card className=" w-[40%] h-[80vh]">
-        <CardHeader></CardHeader>
-        <CardContent className=" mt-8 space-y-6"></CardContent>
+        {loading && (
+          <div className=" w-full flex justify-center  align-middle">
+            <BeatLoader />
+          </div>
+        )}
+        {!loading && (
+          <>
+            <CardHeader>
+              {isSelectedOrganization
+                ? `Users in ${check}`
+                : "No Organization Selected"}
+            </CardHeader>
+            <CardContent className=" mt-8 space-y-6">
+              <div className=" flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                {/*  */}
+                <p className=" w-[80px] text-sm  font-medium">Name</p>
+              </div>
+            </CardContent>
+          </>
+        )}
       </Card>
     </div>
   );

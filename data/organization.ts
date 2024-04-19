@@ -25,3 +25,18 @@ export const getOrganizationById = async (id: string) => {
     return null;
   }
 };
+
+export const getOrganizationByManagerId = async (managerId: string) => {
+  try {
+    const organization = await db.organization.findMany({
+      where: {
+        managerId,
+      },
+    });
+    return organization;
+  } catch (error) {
+    console.log(error);
+
+    return null;
+  }
+};
